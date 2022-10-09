@@ -22,12 +22,6 @@ describe("XenMinter", function () {
         const XenMinterFactory = await ethers.getContractFactory('XenMinterFactory');
         xenMinter = await XenMinterFactory.deploy(xen.address);
         await xenMinter.deployed();
-
-        // 先转入手续费
-        let [owner] = await ethers.getSigners();
-        await owner.sendTransaction({ to: xenMinter.address, value: ethers.utils.parseEther('2') });
-
-        console.log("balance of minter: ", await ethers.provider.getBalance(xenMinter.address));
     });
 
     afterEach(async () => {

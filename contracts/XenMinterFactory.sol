@@ -3,8 +3,6 @@ pragma solidity ^0.8.9;
 
 import "./Minter.sol";
 
-import "hardhat/console.sol";
-
 contract XenMinterFactory {
 
     // term => Minter[]
@@ -29,23 +27,21 @@ contract XenMinterFactory {
         recipient.transfer(address(this).balance);
     }
 
-    function createMinters(uint256 term) public payable onlyOwner {
+    function createMinters(uint256 term) public onlyOwner {
         Minter minter = new Minter(XEN_CONTRACT);
-        // 转手续费
-        payable(minter).transfer(0.006 ether);
         // claimRank
         minter.claimRank(term);
         // 记录minter
         minters[term].push(minter);
     }
 
-    function createManyMinters(uint256 term, uint256 counts) public payable onlyOwner {
+    function createManyMinters(uint256 term, uint256 counts) public onlyOwner {
         for (uint i = 0; i < counts; i++) {
             createMinters(term);
         }
     }
 
-    function batchCreateMinters(uint256[] memory terms, uint256[] memory counts) public payable onlyOwner {
+    function batchCreateMinters(uint256[] memory terms, uint256[] memory counts) public onlyOwner {
         require(terms.length == counts.length, "length mismatch");
 
         for (uint i = 0; i < terms.length; i++) {
@@ -53,7 +49,7 @@ contract XenMinterFactory {
         }
     }
 
-    function claimRewards(uint256[] memory terms, address recipient) public payable onlyOwner {
+    function claimRewards(uint256[] memory terms, address recipient) public onlyOwner {
         for (uint i = 0; i < terms.length; i++) {
             Minter[] memory minterArray = minters[terms[i]];
 
