@@ -4,6 +4,7 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { XENCrypto, XenMinterFactory } from "../typechain-types";
 import delay from "delay";
+import {BigNumber} from 'ethers';
 
 describe("XenMinter", function () {
 
@@ -28,25 +29,37 @@ describe("XenMinter", function () {
 
     });
 
-    it("create batch minters", async function () {
+    it("create minter", async function () {
         let [owner] = await ethers.getSigners();
 
-        let terms =  [5, 10, 15, 20, 25, 30];
-        // let counts = [10, 10, 10, 10, 10, 10];
-        let counts = [6, 6, 6, 6, 6, 6];
-
-        await xenMinter.batchCreateMinters(terms, counts);
+        await xenMinter.connect(owner).createMinters(50, owner.address);
 
         await delay(6000);
 
-        await xenMinter.claimRewards([5], owner.address);
+        await xenMinter.connect(owner).createMinters(50, owner.address);
 
-        console.log(`XEN balance[5] : ${await xen.balanceOf(owner.address)}`);
-
-        await delay(6000);
-        await xenMinter.claimRewards([10], owner.address);
-        console.log(`XEN balance[5, 10] : ${await xen.balanceOf(owner.address)}`);
-
+        console.log(`XEN balance[5] : ${(await xen.balanceOf(owner.address)).div(BigNumber.from("1000000000000000000"))}`);
     });
+
+    // it("create batch minters", async function () {
+    //     let [owner] = await ethers.getSigners();
+
+    //     let terms =  [5, 10, 15, 20, 25, 30];
+    //     // let counts = [10, 10, 10, 10, 10, 10];
+    //     let counts = [6, 6, 6, 6, 6, 6];
+
+    //     await xenMinter.batchCreateMinters(terms, counts);
+
+    //     await delay(6000);
+
+    //     await xenMinter.claimRewards([5], owner.address);
+
+    //     console.log(`XEN balance[5] : ${await xen.balanceOf(owner.address)}`);
+
+    //     await delay(6000);
+    //     await xenMinter.claimRewards([10], owner.address);
+    //     console.log(`XEN balance[5, 10] : ${await xen.balanceOf(owner.address)}`);
+
+    // });
 
 });
