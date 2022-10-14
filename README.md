@@ -1,13 +1,10 @@
-# Sample Hardhat Project
+# Fork MainNet 测试
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+1. 启动节点  
+`npx hardhat node --fork https://eth-goerli.g.alchemy.com/v2/aTJ3B3dN5rkezl-UYjRXLsBsg0yBTXf2`
 
-Try running some of the following tasks:
+2. 部署合约  
+`npx hardhat run scripts/deploy-all.ts --network localhost`
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+3. 将部署的合约地址更新到`execute-v2.ts`中  
+`npx hardhat run scripts/execute-v2.ts --network localhost`

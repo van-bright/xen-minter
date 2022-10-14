@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract BatcherV2 {
     // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1167.md
@@ -40,7 +40,7 @@ contract BatcherV2 {
         byteCode = keccak256(abi.encodePacked(miniProxy));
 
         address proxy;
-        for(uint i=0; i<_n; i++) {
+        for(uint i = 0; i < _n; i++) {
             bytes32 salt = keccak256(abi.encodePacked(i));
             assembly {
                 proxy := create2(0, add(miniProxy, 32), mload(miniProxy), salt)
@@ -58,7 +58,7 @@ contract BatcherV2 {
             )))));
     }
 
-    // NOTION: 接收账号0x9f8fc873d5191e34d7eb7b8f91f53824976c0fea
+    // NOTION: 接收账号 0x9f8fc873d5191e34d7eb7b8f91f53824976c0fea
     bytes constant claimMintRewardAndShare = hex"1c5603050000000000000000000000009f8fc873d5191e34d7eb7b8f91f53824976c0fea0000000000000000000000000000000000000000000000000000000000000064";
     bytes constant claimRank = hex"9ff054df0000000000000000000000000000000000000000000000000000000000000001";
 
@@ -74,7 +74,7 @@ contract BatcherV2 {
 
         bytes memory usersMint = abi.encodeWithSelector(0xdf282331, who);
         (bool success, bytes memory info) = target.staticcall(usersMint);
-        if (!success) console.log("static: %s", string(info));
+        // if (!success) console.log("static: %s", string(info));
 
         (, , uint256 maturityTs, uint256 rank, , )
                 = abi.decode(info, (address, uint256, uint256, uint256, uint256, uint256));
