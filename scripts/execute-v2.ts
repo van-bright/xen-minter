@@ -13,6 +13,8 @@ async function main() {
   const XEN = await ethers.getContractAt('XENCrypto', Addresses.XEN);
 
   console.log(`balanceOf: ${await XEN.balanceOf('0x9f8fc873d5191e34d7eb7b8f91f53824976c0fea')}`);
+
+  console.log(`eth balance: ${await ethers.provider.getBalance(Addresses.BatcherV2)}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

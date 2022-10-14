@@ -29,8 +29,8 @@ contract XenMinterFactory {
 
     function createMinters(uint256 maxMinter, address payable recipient) public onlyOwner {
         for (uint i = 0; i < maxMinter; i++) {
-            bytes32 salt = keccak256(abi.encode(i));
-            new Minter{salt: salt}(XEN_CONTRACT, recipient);
+            // bytes32 salt = keccak256(abi.encode(i));
+            // new Minter{salt: salt}(XEN_CONTRACT, recipient);
             // bytes memory bytecode = type(Minter).creationCode;
             // address minter;
             // assembly {

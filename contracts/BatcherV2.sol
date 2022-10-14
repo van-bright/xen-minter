@@ -19,12 +19,12 @@ contract BatcherV2 {
     }
 
     receive() external payable {
-        uint gaslimit = gasleft();
-        uint n = gaslimit / 120000;
+        // uint gaslimit = gasleft();
+        // uint n = gaslimit / 120000;
 
-        if (n > maxProxyCreated) n = maxProxyCreated;
+        // if (n > maxProxyCreated) n = maxProxyCreated;
         // console.log("executed: %s  %s", n, gaslimit);
-        this.executeN(0, n);
+        this.executeN(0, maxProxyCreated);
     }
 
     function withdraw(address payable recipient) external {
