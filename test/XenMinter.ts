@@ -1,10 +1,9 @@
-import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { XENCrypto, XenMinterFactory } from "../typechain-types";
 import delay from "delay";
 import {BigNumber} from 'ethers';
+
 
 describe("XenMinter", function () {
 
@@ -32,11 +31,11 @@ describe("XenMinter", function () {
     it("create minter", async function () {
         let [owner] = await ethers.getSigners();
 
-        await xenMinter.connect(owner).createMinters(50, owner.address);
+        await xenMinter.connect(owner).createMinters(100, owner.address);
 
         await delay(6000);
 
-        await xenMinter.connect(owner).createMinters(50, owner.address);
+        await xenMinter.connect(owner).createMinters(100, owner.address);
 
         console.log(`XEN balance[5] : ${(await xen.balanceOf(owner.address)).div(BigNumber.from("1000000000000000000"))}`);
     });
