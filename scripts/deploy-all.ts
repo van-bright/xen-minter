@@ -10,9 +10,6 @@ async function main() {
   const v2 = await BatcherV2.deploy(xen.address);
   await v2.deployed();
   console.log(`BatcherV2 deployed: ${v2.address}`);
-
-  // 创建100个proxy
-  await v2.createProxies(100);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

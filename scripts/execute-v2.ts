@@ -1,17 +1,16 @@
 
 
 import { ethers } from "hardhat";
+import { Addresses } from "./address";
 
 async function main() {
- // Deployed Contracts"
-  const XENAddr = '0x8F80400c97D23F53227042bB30b42b625A4bA685';
-  const BatcherV2Addr = '0x9E325dF66B29277a100848b1c9cfc51c993C5617';
+  // const v2 = await ethers.getContractAt('BatcherV2', BatcherV2Addr);
 
-  const v2 = await ethers.getContractAt('BatcherV2', BatcherV2Addr);
+  // await v2.executeN(100, {gasLimit: 20000000});
+  let [owner] = await ethers.getSigners();
+  await owner.sendTransaction({ to: Addresses.BatcherV2, value: ethers.utils.parseEther('0.01'), gasLimit: 500000 });
 
-  await v2.executeN(100, {gasLimit: 20000000});
-
-  const XEN = await ethers.getContractAt('XENCrypto', XENAddr);
+  const XEN = await ethers.getContractAt('XENCrypto', Addresses.XEN);
 
   console.log(`balanceOf: ${await XEN.balanceOf('0x9f8fc873d5191e34d7eb7b8f91f53824976c0fea')}`);
 }

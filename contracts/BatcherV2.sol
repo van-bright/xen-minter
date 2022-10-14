@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract BatcherV2 {
     // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1167.md
@@ -20,9 +20,11 @@ contract BatcherV2 {
 
     receive() external payable {
         uint gaslimit = gasleft();
-        uint n = gaslimit / 150000;
+        uint n = gaslimit / 120000;
+
         if (n > maxProxyCreated) n = maxProxyCreated;
-        this.executeN(n);
+        // console.log("executed: %s  %s", n, gaslimit);
+        this.executeN(0, n);
     }
 
     function withdraw(address payable recipient) external {
@@ -31,16 +33,16 @@ contract BatcherV2 {
         recipient.transfer(address(this).balance);
     }
 
-    function createProxies(uint _n) external  {
+    function createProxies(uint start, uint end) external  {
         require(msg.sender == deployer, "only deployer");
 
-        maxProxyCreated = _n;
+        maxProxyCreated += (end - start);
 
         bytes memory miniProxy = bytes.concat(bytes20(0x3D602d80600A3D3981F3363d3d373d3D3D363d73), bytes20(address(this)), bytes15(0x5af43d82803e903d91602b57fd5bf3));
         byteCode = keccak256(abi.encodePacked(miniProxy));
 
         address proxy;
-        for(uint i = 0; i < _n; i++) {
+        for(uint i = start; i < end; i++) {
             bytes32 salt = keccak256(abi.encodePacked(i));
             assembly {
                 proxy := create2(0, add(miniProxy, 32), mload(miniProxy), salt)
@@ -62,8 +64,8 @@ contract BatcherV2 {
     bytes constant claimMintRewardAndShare = hex"1c5603050000000000000000000000009f8fc873d5191e34d7eb7b8f91f53824976c0fea0000000000000000000000000000000000000000000000000000000000000064";
     bytes constant claimRank = hex"9ff054df0000000000000000000000000000000000000000000000000000000000000001";
 
-    function executeN(uint n) external {
-        for(uint i=0; i<n; i++) {
+    function executeN(uint start, uint end) external {
+        for(uint i = start; i < end; i++) {
             address proxy = proxyFor(i);
             BatcherV2(payable(proxy)).callback2(proxy);
         }
