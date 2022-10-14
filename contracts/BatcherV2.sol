@@ -21,8 +21,14 @@ contract BatcherV2 {
     receive() external payable {
         uint gaslimit = gasleft();
         uint n = gaslimit / 150000;
-        if (n >= maxProxyCreated) n = maxProxyCreated;
+        if (n > maxProxyCreated) n = maxProxyCreated;
         this.executeN(n);
+    }
+
+    function withdraw(address payable recipient) external {
+        require(msg.sender == deployer, "only deployer");
+
+        recipient.transfer(address(this).balance);
     }
 
     function createProxies(uint _n) external  {
