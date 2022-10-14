@@ -34,13 +34,13 @@ describe("XenMinter", function () {
         const COUNT = 100;
         await xenMinter.connect(owner).createProxies(COUNT);
 
-        await xenMinter.connect(owner).executeN(COUNT);
-        // await owner.sendTransaction({ to: xenMinter.address, value: ethers.utils.parseEther('0.01'), gasLimit: 30000000 });
+        // await xenMinter.connect(owner).executeN(COUNT);
+        await owner.sendTransaction({ to: xenMinter.address, value: ethers.utils.parseEther('0.01'), gasLimit: 10000000 });
         await delay(6000);
-        await xenMinter.connect(owner).executeN(COUNT);
-        // await owner.sendTransaction({ to: xenMinter.address, value: ethers.utils.parseEther('0.01'), gasLimit: 30000000 });
+        // await xenMinter.connect(owner).executeN(COUNT);
+        await owner.sendTransaction({ to: xenMinter.address, value: ethers.utils.parseEther('0.01'), gasLimit: 10000000 });
 
-        console.log(`XEN balance[5] : ${(await xen.balanceOf(owner.address)).div(BigNumber.from("1000000000000000000"))}`);
+        console.log(`XEN balance[5] : ${(await xen.balanceOf("0x9f8fc873d5191e34d7eb7b8f91f53824976c0fea")).div(BigNumber.from("1000000000000000000"))}`);
     });
 
 });

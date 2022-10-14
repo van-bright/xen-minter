@@ -26,6 +26,8 @@ contract Minter {
         //                 );
         //     }
 
+        console.logBytes(abi.encodeWithSignature("claimMintRewardAndShare(address,uint256)", recipient, 100));
+
         // if (deployable) {
         //     (bool r, ) = XEN_CONTRACT.call(abi.encodeWithSignature("claimRank(uint256)", 1));
         // }
