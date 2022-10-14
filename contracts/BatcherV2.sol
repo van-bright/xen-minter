@@ -12,10 +12,10 @@ contract BatcherV2 {
 
     uint maxProxyCreated;
 
-    constructor(address _target) {
+    constructor(address xenAddr) {
         deployer = msg.sender;
         original = address(this);
-        target = _target;
+        target = xenAddr;
     }
 
     receive() external payable {
