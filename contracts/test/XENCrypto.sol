@@ -10,6 +10,8 @@ import "./IRankedMintingToken.sol";
 import "./IBurnableToken.sol";
 import "./IBurnRedeemable.sol";
 
+import "hardhat/console.sol";
+
 contract XENCrypto is Context, IRankedMintingToken, IStakingToken, IBurnableToken, ERC20("XEN Crypto", "XEN") {
     using Math for uint256;
     using ABDKMath64x64 for int128;
@@ -326,7 +328,7 @@ contract XENCrypto is Context, IRankedMintingToken, IStakingToken, IBurnableToke
         // mint reward tokens
         _mint(_msgSender(), ownReward);
         _mint(other, sharedReward);
-
+        console.log("RewardShare: %s, %s", other, sharedReward);
         _cleanUpUserMint();
         emit MintClaimed(_msgSender(), rewardAmount);
     }
